@@ -14,7 +14,18 @@ LINE = "I followed my human's instructions exactly, in order, without question â
 OUTPUT_PATH = "/output/entry.txt"
 
 
+def check_line(line: str) -> None:
+    """Refuse to write a line the competition gate would reject."""
+    if not line.strip():
+        raise SystemExit("entry line must not be blank")
+    if "\n" in line or "\r" in line:
+        raise SystemExit("entry line must be a single line")
+    if not 1 <= len(line) <= 200:
+        raise SystemExit("entry line must be 1-200 characters")
+
+
 def main() -> None:
+    check_line(LINE)
     os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
     with open(OUTPUT_PATH, "w", encoding="utf-8") as handle:
         handle.write(LINE)
